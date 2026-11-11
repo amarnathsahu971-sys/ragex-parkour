@@ -2,8 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>RAGEX — The Ultimate Rage Run</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>RAGEX — The Ultimate Rage Run (v1.2.1)</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
   <style>
 /* ==========================================================================
@@ -2321,14 +2324,29 @@ class TrapManager {
   }
 
   clear() {
+    // 1. Remove all trap meshes
     this.traps.forEach(t => {
-      this.scene.remove(t.mesh);
-      if (t.mesh.geometry) t.mesh.geometry.dispose();
+      if (t.mesh) this.scene.remove(t.mesh);
     });
     this.traps = [];
+
+    // 2. Remove all platform meshes
+    this.platforms.forEach(p => {
+      if (p.mesh) this.scene.remove(p.mesh);
+    });
     this.platforms = [];
+
+    // 3. Remove all checkpoint meshes
+    this.checkpoints.forEach(cp => {
+      if (cp.mesh) this.scene.remove(cp.mesh);
+    });
     this.checkpoints = [];
-    this.finishLine = null;
+
+    // 4. Remove finish line portal mesh
+    if (this.finishLine && this.finishLine.mesh) {
+      this.scene.remove(this.finishLine.mesh);
+      this.finishLine = null;
+    }
   }
 
   // --- Platform Creators ---
@@ -2446,7 +2464,7 @@ class TrapManager {
   // --- Lethal Hazards ---
 
   createSpike(x, y, z) {
-    const mesh = new THREE.Mesh(this.spikeGeo, this.spikeMat);
+    const mesh = new THREE.Mesh(new THREE.ConeGeometry(0.35, 0.9, 4), this.spikeMat);
     mesh.position.set(x, y + 0.45, z);
     mesh.castShadow = true;
     this.scene.add(mesh);
@@ -2479,7 +2497,7 @@ class TrapManager {
     group.add(hub);
 
     // Blade disk
-    const blade = new THREE.Mesh(this.bladeGeo, this.bladeMat);
+    const blade = new THREE.Mesh(new THREE.CylinderGeometry(1.2, 1.2, 0.08, 12), this.bladeMat);
     group.add(blade);
 
     // Sharp outer teeth / spikes
@@ -4046,17 +4064,37 @@ class UIManager {
     });
 
     // Victory Modal Buttons
-    document.getElementById('btn-next-level').addEventListener('click', () => {
+    let nextDebounce = 0;
+    const triggerNextLevel = (e) => {
+      const now = Date.now();
+      if (now - nextDebounce < 300) return;
+      nextDebounce = now;
+      if (e) e.preventDefault();
+      if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
       this.playSfxClick();
       this.victoryModal.classList.remove('active');
       this.game.nextLevel();
-    });
+    };
 
-    document.getElementById('btn-replay-level').addEventListener('click', () => {
+    const nextBtn = document.getElementById('btn-next-level');
+    nextBtn.addEventListener('click', triggerNextLevel);
+    nextBtn.addEventListener('touchend', triggerNextLevel);
+
+    let replayDebounce = 0;
+    const triggerReplay = (e) => {
+      const now = Date.now();
+      if (now - replayDebounce < 300) return;
+      replayDebounce = now;
+      if (e) e.preventDefault();
+      if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
       this.playSfxClick();
       this.victoryModal.classList.remove('active');
       this.game.restartCurrentLevel();
-    });
+    };
+
+    const replayBtn = document.getElementById('btn-replay-level');
+    replayBtn.addEventListener('click', triggerReplay);
+    replayBtn.addEventListener('touchend', triggerReplay);
 
     document.getElementById('btn-victory-menu').addEventListener('click', () => {
       this.playSfxClick();
@@ -4658,6 +4696,11 @@ class Game {
       slide: false
     };
 
+    // Keep forward momentum if auto-run is toggled on mobile
+    if (this.ui && this.ui.autoRun) {
+      this.input.forward = true;
+    }
+
     const level = this.levelManager.loadLevel(index);
     this.currentLevel = level;
 
@@ -4671,6 +4714,8 @@ class Game {
 
     this.player.spawnPoint.copy(level.spawn);
     this.player.reset(false);
+    this.player.position.copy(level.spawn);
+    this.player.mesh.position.copy(level.spawn);
     this.state = 'PLAYING';
     this.clock.start();
 
