@@ -854,72 +854,201 @@ input:checked + .slider:before {
 #mobile-controls {
   display: none;
   position: absolute;
-  bottom: 18px;
+  bottom: 12px;
   left: 0;
   width: 100%;
-  padding: 0 24px;
+  padding: 0 16px;
   box-sizing: border-box;
   justify-content: space-between;
   align-items: flex-end;
-  z-index: 30;
+  z-index: 35;
   pointer-events: none;
+  touch-action: none;
 }
 
-.mobile-dpad {
+.mobile-left-cluster {
   display: flex;
-  gap: 14px;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
   pointer-events: auto;
 }
 
-.mobile-actions {
+.mobile-pill-btn {
+  background: rgba(18, 20, 38, 0.88);
+  border: 1.5px solid var(--border-neon-cyan);
+  border-radius: 20px;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  padding: 6px 14px;
+  cursor: pointer;
+  box-shadow: 0 0 12px rgba(0, 243, 255, 0.3);
+  transition: all 0.2s ease;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.mobile-pill-btn.active {
+  background: rgba(0, 255, 136, 0.25);
+  border-color: var(--neon-green);
+  color: #00ff88;
+  box-shadow: 0 0 16px rgba(0, 255, 136, 0.6);
+}
+
+.mobile-dpad-cross {
   display: flex;
-  gap: 14px;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
   pointer-events: auto;
+}
+
+.dpad-row {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  align-items: center;
+}
+
+.dpad-center {
+  width: 48px;
+  height: 48px;
+  background: rgba(12, 14, 26, 0.6);
+  border-radius: 8px;
 }
 
 .touch-btn {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background: rgba(20, 25, 45, 0.75);
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: rgba(18, 22, 42, 0.85);
   border: 2px solid var(--border-neon-cyan);
   color: #fff;
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   font-weight: 900;
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6), 0 0 12px rgba(0, 243, 255, 0.4);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6), 0 0 10px rgba(0, 243, 255, 0.3);
   user-select: none;
   -webkit-user-select: none;
+  touch-action: none;
+  cursor: pointer;
+  transition: transform 0.08s ease, background-color 0.08s ease;
 }
 
 .touch-btn:active, .touch-btn.pressed {
-  background: rgba(0, 243, 255, 0.4);
-  transform: scale(0.92);
+  background: rgba(0, 243, 255, 0.45);
+  transform: scale(0.90);
+  box-shadow: 0 0 18px var(--border-neon-cyan);
+}
+
+.mobile-actions-cluster {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  pointer-events: auto;
+}
+
+.action-sub-row {
+  display: flex;
+  gap: 10px;
+}
+
+.touch-btn.sprint-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border-color: var(--neon-purple);
+  background: rgba(28, 12, 44, 0.85);
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+  color: #e0b0ff;
+  box-shadow: 0 0 15px rgba(157, 0, 255, 0.4);
+}
+
+.touch-btn.sprint-btn:active, .touch-btn.sprint-btn.pressed {
+  background: rgba(157, 0, 255, 0.45);
+  box-shadow: 0 0 20px #9d00ff;
+}
+
+.touch-btn.slide-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border-color: var(--neon-amber);
+  background: rgba(40, 24, 10, 0.85);
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+  color: #ffd070;
+  box-shadow: 0 0 15px rgba(255, 170, 0, 0.4);
+}
+
+.touch-btn.slide-btn:active, .touch-btn.slide-btn.pressed {
+  background: rgba(255, 170, 0, 0.45);
+  box-shadow: 0 0 20px #ffaa00;
 }
 
 .touch-btn.jump-btn {
   width: 76px;
   height: 76px;
-  background: linear-gradient(135deg, rgba(255, 0, 85, 0.7) 0%, rgba(157, 0, 255, 0.7) 100%);
-  border-color: var(--border-neon-red);
-  box-shadow: 0 0 20px rgba(255, 0, 85, 0.6);
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(255, 0, 85, 0.85) 0%, rgba(157, 0, 255, 0.85) 100%);
+  border: 3px solid var(--border-neon-red);
+  box-shadow: 0 0 25px rgba(255, 0, 85, 0.6);
+  font-size: 1.05rem;
+  font-weight: 900;
+  letter-spacing: 1px;
 }
 
-.touch-btn.slide-btn {
-  border-color: var(--neon-amber);
+.touch-btn.jump-btn:active, .touch-btn.jump-btn.pressed {
+  background: linear-gradient(135deg, #ff0055 0%, #9d00ff 100%);
+  transform: scale(0.92);
+  box-shadow: 0 0 35px #ff0055;
 }
 
-.touch-btn.sprint-btn {
-  border-color: var(--neon-purple);
+/* Mobile HUD Quick Actions */
+.hud-mobile-actions {
+  display: flex;
+  gap: 8px;
+  pointer-events: auto;
+}
+
+.hud-icon-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 1.5px solid rgba(0, 243, 255, 0.5);
+  color: #fff;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.hud-icon-btn:active {
+  transform: scale(0.9);
+  background: rgba(0, 243, 255, 0.3);
 }
 
 /* Media Queries for Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: 1024px), (hover: none) and (pointer: coarse) {
   .game-logo { font-size: 3.5rem; letter-spacing: 4px; }
-  .hud-top { left: 12px; right: 12px; top: 12px; }
+  .hud-top { left: 8px; right: 8px; top: 8px; }
   .progress-container { width: 140px; }
+  .stat-box { min-width: 75px; padding: 6px 10px; }
+  .stat-value { font-size: 1.05rem; }
+  .hud-level-title { font-size: 0.95rem; }
   .modal-window { padding: 24px 18px; }
   .modal-title { font-size: 1.5rem; }
   .victory-stats-grid { grid-template-columns: 1fr; gap: 8px; }
@@ -981,6 +1110,12 @@ input:checked + .slider:before {
             <div class="stat-label">DEATHS</div>
             <div id="hud-deaths" class="stat-value deaths">0</div>
           </div>
+        </div>
+
+        <!-- Mobile HUD Quick Actions -->
+        <div class="hud-mobile-actions">
+          <button id="m-hud-restart" class="hud-icon-btn" title="Quick Respawn">↺</button>
+          <button id="m-hud-pause" class="hud-icon-btn" title="Pause">⏸</button>
         </div>
       </div>
 
@@ -1181,14 +1316,31 @@ input:checked + .slider:before {
 
     <!-- Mobile Touch Controls -->
     <div id="mobile-controls">
-      <div class="mobile-dpad">
-        <div id="m-btn-left" class="touch-btn">◀</div>
-        <div id="m-btn-right" class="touch-btn">▶</div>
+      <!-- Left Side: D-Pad & Auto-Run -->
+      <div class="mobile-left-cluster">
+        <button id="m-btn-autorun" class="mobile-pill-btn">🏃 AUTO-RUN: OFF</button>
+        <div class="mobile-dpad-cross">
+          <div class="dpad-row">
+            <button id="m-btn-up" class="touch-btn">▲</button>
+          </div>
+          <div class="dpad-row">
+            <button id="m-btn-left" class="touch-btn">◀</button>
+            <div class="dpad-center"></div>
+            <button id="m-btn-right" class="touch-btn">▶</button>
+          </div>
+          <div class="dpad-row">
+            <button id="m-btn-down" class="touch-btn">▼</button>
+          </div>
+        </div>
       </div>
-      <div class="mobile-actions">
-        <div id="m-btn-slide" class="touch-btn slide-btn">SLIDE</div>
-        <div id="m-btn-sprint" class="touch-btn sprint-btn">RUN</div>
-        <div id="m-btn-jump" class="touch-btn jump-btn">JUMP</div>
+
+      <!-- Right Side: Sprint, Slide, Jump -->
+      <div class="mobile-actions-cluster">
+        <div class="action-sub-row">
+          <button id="m-btn-sprint" class="touch-btn sprint-btn">⚡ RUN</button>
+          <button id="m-btn-slide" class="touch-btn slide-btn">🛹 SLIDE</button>
+        </div>
+        <button id="m-btn-jump" class="touch-btn jump-btn">⬆ JUMP</button>
       </div>
     </div>
 
@@ -2943,6 +3095,7 @@ class Player {
     }
     this.velocity.set(0, 0, 0);
     this.isDead = false;
+    this.isVictorious = false;
     this.isGrounded = false;
     this.canDoubleJump = true;
     this.isSliding = false;
@@ -3963,42 +4116,154 @@ class UIManager {
   }
 
   setupMobileControls() {
-    const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+    const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (window.innerWidth <= 1024);
     const mobileContainer = document.getElementById('mobile-controls');
     if (isTouch && mobileContainer) {
       mobileContainer.style.display = 'flex';
+      document.body.classList.add('touch-device');
     }
 
+    const btnUp = document.getElementById('m-btn-up');
+    const btnDown = document.getElementById('m-btn-down');
     const btnLeft = document.getElementById('m-btn-left');
     const btnRight = document.getElementById('m-btn-right');
     const btnJump = document.getElementById('m-btn-jump');
     const btnSlide = document.getElementById('m-btn-slide');
     const btnSprint = document.getElementById('m-btn-sprint');
+    const btnAutoRun = document.getElementById('m-btn-autorun');
+    const btnHudRestart = document.getElementById('m-hud-restart');
+    const btnHudPause = document.getElementById('m-hud-pause');
 
-    const bindTouch = (el, pressAction, releaseAction) => {
+    // Auto-Run toggle state
+    this.autoRun = false;
+    if (btnAutoRun) {
+      const toggleAutoRun = (e) => {
+        if (e) { e.preventDefault(); e.stopPropagation(); }
+        this.autoRun = !this.autoRun;
+        btnAutoRun.classList.toggle('active', this.autoRun);
+        btnAutoRun.innerText = this.autoRun ? '🏃 AUTO-RUN: ON' : '🏃 AUTO-RUN: OFF';
+        if (this.autoRun) {
+          this.game.input.forward = true;
+        } else {
+          this.game.input.forward = false;
+        }
+      };
+      btnAutoRun.addEventListener('pointerdown', toggleAutoRun);
+      btnAutoRun.addEventListener('click', toggleAutoRun);
+    }
+
+    // Top Mobile HUD buttons
+    if (btnHudRestart) {
+      btnHudRestart.addEventListener('pointerdown', (e) => {
+        e.preventDefault();
+        this.playSfxClick();
+        this.game.restartCurrentLevel();
+      });
+    }
+    if (btnHudPause) {
+      btnHudPause.addEventListener('pointerdown', (e) => {
+        e.preventDefault();
+        this.playSfxClick();
+        this.game.togglePause();
+      });
+    }
+
+    // High performance Pointer event handler for touch & mouse
+    const bindBtn = (el, onDown, onUp) => {
       if (!el) return;
-      el.addEventListener('touchstart', (e) => {
+      const handleDown = (e) => {
         e.preventDefault();
         el.classList.add('pressed');
-        pressAction();
-      }, { passive: false });
-      el.addEventListener('touchend', (e) => {
+        onDown();
+      };
+      const handleUp = (e) => {
         e.preventDefault();
         el.classList.remove('pressed');
-        releaseAction();
-      }, { passive: false });
+        onUp();
+      };
+      el.addEventListener('pointerdown', handleDown);
+      el.addEventListener('pointerup', handleUp);
+      el.addEventListener('pointercancel', handleUp);
+      el.addEventListener('pointerleave', handleUp);
     };
 
-    bindTouch(btnLeft, () => this.game.input.left = true, () => this.game.input.left = false);
-    bindTouch(btnRight, () => this.game.input.right = true, () => this.game.input.right = false);
-    bindTouch(btnJump, () => {
+    bindBtn(btnUp, () => this.game.input.forward = true, () => {
+      if (!this.autoRun) this.game.input.forward = false;
+    });
+    bindBtn(btnDown, () => this.game.input.backward = true, () => this.game.input.backward = false);
+    bindBtn(btnLeft, () => this.game.input.left = true, () => this.game.input.left = false);
+    bindBtn(btnRight, () => this.game.input.right = true, () => this.game.input.right = false);
+
+    bindBtn(btnJump, () => {
       this.game.input.jump = true;
       this.game.input.jumpPressed = true;
     }, () => {
       this.game.input.jump = false;
     });
-    bindTouch(btnSlide, () => this.game.input.slide = true, () => this.game.input.slide = false);
-    bindTouch(btnSprint, () => this.game.input.sprint = true, () => this.game.input.sprint = false);
+
+    bindBtn(btnSlide, () => this.game.input.slide = true, () => this.game.input.slide = false);
+    bindBtn(btnSprint, () => this.game.input.sprint = true, () => this.game.input.sprint = false);
+
+    // Left screen touch drag steering
+    this.setupTouchDragSteering();
+  }
+
+  setupTouchDragSteering() {
+    let startX = 0;
+    let startY = 0;
+    let activeTouchId = null;
+
+    window.addEventListener('touchstart', (e) => {
+      for (let i = 0; i < e.changedTouches.length; i++) {
+        const touch = e.changedTouches[i];
+        if (touch.clientX < window.innerWidth * 0.45 && touch.clientY > window.innerHeight * 0.3) {
+          if (e.target.closest('#mobile-controls, button, .interactive, .hud-top')) continue;
+          activeTouchId = touch.identifier;
+          startX = touch.clientX;
+          startY = touch.clientY;
+          break;
+        }
+      }
+    }, { passive: true });
+
+    window.addEventListener('touchmove', (e) => {
+      if (activeTouchId === null) return;
+      for (let i = 0; i < e.changedTouches.length; i++) {
+        const touch = e.changedTouches[i];
+        if (touch.identifier === activeTouchId) {
+          const dx = touch.clientX - startX;
+          const dy = touch.clientY - startY;
+
+          this.game.input.left = dx < -20;
+          this.game.input.right = dx > 20;
+
+          if (!this.autoRun) {
+            this.game.input.forward = dy < -20;
+            this.game.input.backward = dy > 25;
+          }
+          break;
+        }
+      }
+    }, { passive: true });
+
+    const endTouch = (e) => {
+      if (activeTouchId === null) return;
+      for (let i = 0; i < e.changedTouches.length; i++) {
+        if (e.changedTouches[i].identifier === activeTouchId) {
+          activeTouchId = null;
+          this.game.input.left = false;
+          this.game.input.right = false;
+          if (!this.autoRun) {
+            this.game.input.forward = false;
+            this.game.input.backward = false;
+          }
+          break;
+        }
+      }
+    };
+
+    window.addEventListener('touchend', endTouch, { passive: true });
+    window.addEventListener('touchcancel', endTouch, { passive: true });
   }
 
   // --- Show / Hide Screens ---
@@ -4378,6 +4643,20 @@ class Game {
     this.player.levelDeaths = 0;
     this.player.currentCheckpoint = null;
     this.player.ghostHistory = [];
+    this.player.isVictorious = false;
+    this.player.isDead = false;
+
+    // Clear any stuck input keys
+    this.input = {
+      forward: false,
+      backward: false,
+      left: false,
+      right: false,
+      jump: false,
+      jumpPressed: false,
+      sprint: false,
+      slide: false
+    };
 
     const level = this.levelManager.loadLevel(index);
     this.currentLevel = level;
@@ -4404,7 +4683,8 @@ class Game {
   }
 
   restartCurrentLevel() {
-    if (this.state !== 'PLAYING' && this.state !== 'PAUSED') return;
+    this.player.isVictorious = false;
+    this.state = 'PLAYING';
     this.player.reset(true); // respawn at current checkpoint or spawn
   }
 
